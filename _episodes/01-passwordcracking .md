@@ -63,8 +63,6 @@ administrative and system accounts/groups.
 full name, phone number etc.  
 - **Home directory**: The absolute path to the directory the user will be in when they log in.  
 - **Command/shell**: The absolute path of a command or shell (/bin/bash).  
-  
-  
 >## Results  
 >user@7f13087a9a35:~$ cat /etc/passwd  
 >root:x:0:0:root:/root:/bin/bash  
