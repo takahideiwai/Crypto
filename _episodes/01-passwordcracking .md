@@ -85,7 +85,9 @@ user@a8d078387d02:~$ ls -l /etc/passwd
 |-----------------------------------------------------------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------------------------------------------|
 | ‘-’ indicates a file  'd’ indicates a directory  ‘l’ indicates a link | Read, write and execute permissions forthe owner of the file | Read, write and execute permissions for the members of the group owning the file | Read, write and execute permissions for other users |
 
-
+>## Result
+>-rw-r--r-- 1 root root 1196 Jun 12 22:40 /etc/passwd
+{: .output}
 
 
 **Step 3: View the /etc/shadow file using the command:**  
@@ -116,6 +118,16 @@ password unchanged for many, many years.
 - **A reserved field for possible future use**   
 
 **Please take a scrrenshot of the result!**  
+>## Result
+>root:*:17962:0:99999:7:::  
+>daemon:*:17962:0:99999:7:::  
+>bin:*:17962:0:99999:7:::  
+>sys:*:17962:0:99999:7:::  
+>sync:*:17962:0:99999:7:::  
+>games:*:17962:0:99999:7:::  
+{: .output}
+
+
 
 **Step4: Create a new user named alice in the command:**  
 ~~~
