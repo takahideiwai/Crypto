@@ -64,15 +64,16 @@ full name, phone number etc.
 - **Home directory**: The absolute path to the directory the user will be in when they log in.  
 - **Command/shell**: The absolute path of a command or shell (/bin/bash).  
 
->## Results  
->user@7f13087a9a35:~$ cat /etc/passwd  
->root:x:0:0:root:/root:/bin/bash  
->daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin  
->bin:x:2:2:bin:/bin:/usr/sbin/nologin  
->sys:x:3:3:sys:/dev:/usr/sbin/nologin  
->sync:x:4:65534:sync:/bin:/bin/sync  
->games:x:5:60:games:/usr/games:/usr/sbin/nologin  
->man:x:6:12:man:/var/cache/man:/usr/sbin/nologin  
+> ## Results
+>  
+> user@7f13087a9a35:~$ cat /etc/passwd  
+> root:x:0:0:root:/root:/bin/bash  
+> daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin  
+> bin:x:2:2:bin:/bin:/usr/sbin/nologin  
+> sys:x:3:3:sys:/dev:/usr/sbin/nologin  
+> sync:x:4:65534:sync:/bin:/bin/sync  
+> games:x:5:60:games:/usr/games:/usr/sbin/nologin  
+> man:x:6:12:man:/var/cache/man:/usr/sbin/nologin  
 {: .output}
 
 **Step 2: View the permission of the passwd file using the command:**  
