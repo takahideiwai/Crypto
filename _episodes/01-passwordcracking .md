@@ -1,5 +1,5 @@
 ---
-title: "Password Hasing and Cracking"
+title: "Password Hashing and Cracking"
 teaching: 10
 exercises: 30
 questions:
