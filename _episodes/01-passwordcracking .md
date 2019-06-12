@@ -147,7 +147,7 @@ Retype new UNIX password: (type in bpw123)
 **Step 9: Examine the alterations to the shadow file by typing the following:**  
 
 ~~~
-user@a8d078387d02:~$ sudo cat tail /etc/shadow
+user@a8d078387d02:~$ sudo tail /etc/shadow
 ~~~
 {: .language-bash}
 
