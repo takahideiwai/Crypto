@@ -77,7 +77,17 @@ user@a8d078387d02:~$ ls -l /etc/passwd
 |-----------------------------------------------------------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------------------------------------------|
 | ‘-’ indicates a file  'd’ indicates a directory  ‘l’ indicates a link | Read, write and execute permissions forthe owner of the file | Read, write and execute permissions for the members of the group owning the file | Read, write and execute permissions for other users |
 
-**Please take a screenshot of the results**  
+>##Results
+>user@7f13087a9a35:~$ cat /etc/passwd
+>root:x:0:0:root:/root:/bin/bash
+>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+>bin:x:2:2:bin:/bin:/usr/sbin/nologin
+>sys:x:3:3:sys:/dev:/usr/sbin/nologin
+>sync:x:4:65534:sync:/bin:/bin/sync
+>games:x:5:60:games:/usr/games:/usr/sbin/nologin
+>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+{: .output}
+
 
 **Step 3: View the /etc/shadow file using the command:**  
 ~~~
