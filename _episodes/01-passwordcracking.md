@@ -67,7 +67,6 @@ Each entry is the password information for each user (or user account) of the sy
 {: .checklist}
 
 ~~~
- user@7f13087a9a35:~$ cat /etc/passwd  
  root:x:0:0:root:/root:/bin/bash  
  daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin  
  bin:x:2:2:bin:/bin:/usr/sbin/nologin  
@@ -125,12 +124,7 @@ root:$6$OCtu.M/v$fpnhbjkpA4S29lKZ2TzRsl6ArWyvu9eIfWfC0H98t8OoLPokE8.d7q54cynb0BT
 > - **A reserved field for possible future use**   
 {: .checklist}
 ~~~
-root:*:17962:0:99999:7:::  
-daemon:*:17962:0:99999:7:::  
-bin:*:17962:0:99999:7:::  
-sys:*:17962:0:99999:7:::  
-sync:*:17962:0:99999:7:::  
-games:*:17962:0:99999:7:::  
+user:$6$D9fII/Dc$mKjHYzIZBqxQJo3RebqBrwha2tXCBTyTyhPfClsRTxb.IxnGkpOJqqeqYHPLELr.vIln/Ctc/BecBxqxobjXt.:18060:0:99999:7:::
 ~~~
 {: .output}
 
