@@ -152,20 +152,26 @@ user@a8d078387d02:~$ cat /etc/passwd
 {: .language-bash}
 
 **Please take a scrrenshot of the result!**  
+~~~
+user:x:1000:1000::/home/user:/bin/bash
+alice:x:1001:1001::/home/alice:/bin/sh
+bob:x:1002:1002::/home/bob:/bin/sh
+~~~
+{: .output}
 
 **Step 7: Set alice’s password to apw123 using the following command:**
 ~~~
 user@a8d078387d02:~$ sudo passwd alice  
-Enter new UNIX password: (type in apw123)  
-Retype new UNIX password: (type in apw123)  
+Enter new UNIX password:   
+Retype new UNIX password:  
 ~~~
 {: .language-bash}
 
 **Step 8: Set bob’s password to bpw123 using the command:**  
 ~~~
 user@a8d078387d02:~$ sudo passwd bob  
-Enter new UNIX password: (type in bpw123)  
-Retype new UNIX password: (type in bpw123)  
+Enter new UNIX password:   
+Retype new UNIX password: 
 ~~~
 {: .language-bash}
 
@@ -177,6 +183,12 @@ user@a8d078387d02:~$ sudo tail /etc/shadow
 {: .language-bash}
 
 **Please take a screenshot of the result.**   
+~~~
+user:$6$0nkEXGhf$aXpApOjg0PrBxGjky/xqbDEOv7cxay9QPrZYWfKGGEpqQThQFxBQiK0ZIs4cPl4WC0IF4zKLXFbv2T5vk/th41:18060:0:99999:7:::  
+alice:$6$wnYYKvPY$nfUYRvPmYdTF74QY.1hx/wIXiVfphnr79RCM5X.MXlWzeRWkk8DeS/7oheWZr.pCxmxvNNCn7VfQsniFCN6ly.:18060:0:99999:7:::  
+bob:$6$PJbXq1eB$AEUNNCc9tbG/l5OxbvRb4todLOIdI2nJXWHuq9HcpgFQSDDASnKMj.v.FfA40byxYUiiPfnKGNctPgkzu4NWB/:18060:0:99999:7:::  
+~~~
+{: .output}
 
 ## Cracking Hashes and Rainbow Table
 Although the hashing algorithms cannot be reversed, password hashes could be cracked. Hackers
@@ -198,7 +210,7 @@ There are some online cracking tools. For example, CrackStation (https://crackst
 online websites for cracking simple password hashes.
 
 Please use the CrackStation to crack the following password hashes:  
-**Hash 1: 6384E2B2184BCBF58ECCF10CA7A6563C**
+**Hash 1: 6384E2B2184BCBF58ECCF10CA7A6563C**  
 What is the password? What hash algorithm is used?    
 
 **Hash 2:4E40E8FFE0EE32FA53E139147ED559229A5930F89C2204706FC174BEB36210B3**  
@@ -232,6 +244,16 @@ user@a8d078387d02:~$ sudo john /etc/shadow
 {: .language-bash}
 
 *Please take a screenshot of the results*  
+~~~
+Created directory: /root/.john  
+Loaded 3 password hashes with 3 different salts (crypt, generic crypt(3) [?/64])  
+Press 'q' or Ctrl-C to abort, almost any other key for status  
+user             (user)  
+1g 0:00:00:17 0% 2/3 0.05675g/s 386.4p/s 441.0c/s 441.0C/s francine..me  
+Use the "--show" option to display all of the cracked passwords reliably  
+Session aborted  
+~~~  
+{: .output}
 
 **Step 3: Can you crack the following passwords?**  
 
