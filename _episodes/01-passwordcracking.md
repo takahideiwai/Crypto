@@ -320,12 +320,11 @@ appears to be unsupported on this system; will not load such hashes.
 **Step 5: Are there any remaining password to be cracked? You may get the following
 warnings:**  
 > ## Warning
+>
 >only loading hashes of type "des", but also saw type "md5"  
 >
->Use the "--format=md5" option to force loading hashes of that type instead  >
-{: .callout}
-
-> ## Warning
+>Use the "--format=md5" option to force loading hashes of that type instead  
+>
 >only loading hashes of type "des", but also saw type "crypt"  
 >
 >Use the "--format=crypt" option to force loading hashes of that type instead   
