@@ -263,13 +263,13 @@ FMOs2YkknqHdMbbdxyBN7NNNBnAh/d7YY2fRRV3k0:15652:0:99999:7:::
 
 **Open a terminal and type**  
 ~~~
-user@a8d078387d02:~$ gedit
+user@a8d078387d02:~$ gedit hashfile1.txt  
 ~~~
 {: .language-bash}  
 
-**Paste the above information in the text editor and click the Save button in the menu to save it to Desktop as “hashfile1.txt”**  
+**Check the contents of hashfile1.txt**  
 
-**Step 3: Open a terminal, go to the desktop directory, and use john to crack the passwords**  
+**Step 3: Open a terminal, and use john to crack the passwords**  
 
 ~~~
 user@a8d078387d02:~$ john hashfile1.txt  
