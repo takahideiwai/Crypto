@@ -280,30 +280,59 @@ user@a8d078387d02:~$ gedit
 **Step 4: Open a terminal, go to the desktop directory, and use john to crack the passwords**  
 
 ~~~
-user@a8d078387d02:~$ sudo john hashfile1.txt  
+user@a8d078387d02:~$ john hashfile1.txt  
 ~~~
 {: .language-bash}
+
+~~~
+Created directory: /home/user/.john  
+Warning: only loading hashes of type "descrypt", but also saw type "md5crypt"  
+Use the "--format=md5crypt" option to force loading hashes of that type instead  
+Warning: only loading hashes of type "descrypt", but also saw type "crypt"  
+Use the "--format=crypt" option to force loading hashes of that type instead  
+Loaded 2 password hashes with 2 different salts (descrypt, traditional crypt(3) [DES 128/128 SSE2-16])  
+Press 'q' or Ctrl-C to abort, almost any other key for status  
+qwerty           (awilliams)  
+iloveyou         (emiller)  
+2g 0:00:00:00 100% 2/3 100.0g/s 132300p/s 138700c/s 138700C/s 123456..marley  
+Use the "--show" option to display all of the cracked passwords reliably  
+Session completed  
+~~~
+{: .output}
 
 **Tip: After running john, you can check out the cracked password at any time using the
 command:**
 ~~~
-user@a8d078387d02:~$ sudo john --show hashfile1.txt  
+user@a8d078387d02:~$ john --show hashfile1.txt  
 ~~~
 {: .language-bash}
 
+~~~
+emiller:iloveyou:15652:0:99999:7:::  
+awilliams:qwerty:15652:0:99999:7:::
+Warning: hash encoding string length 99, type id $6  
+appears to be unsupported on this system; will not load such hashes.  
+  
+2 password hashes cracked, 2 left  
+~~~
+{: .output}  
+
 **Step 5: Are there any remaining password to be cracked? You may get the following
 warnings:**  
+> ## Warning
+>only loading hashes of type "des", but also saw type "md5"  
+>
+>Use the "--format=md5" option to force loading hashes of that type instead  >
+{: .callout}
 
-Warning: only loading hashes of type "des", but also saw type "md5"  
-
-Use the "--format=md5" option to force loading hashes of that type instead  
-
-Warning: only loading hashes of type "des", but also saw type "crypt"  
-
-Use the "--format=crypt" option to force loading hashes of that type instead   
-
-**It suggests us to specify the hash format.  
-We can use the following commands to specify the format option and run john again:**  
+> ##Warning
+>only loading hashes of type "des", but also saw type "crypt"  
+>
+>Use the "--format=crypt" option to force loading hashes of that type instead   
+>
+>**It suggests us to specify the hash format.  
+>We can use the following commands to specify the format option and run john again:**  
+{: .callout}
 
 ~~~
 user@a8d078387d02:~$ sudo john --format=md5 --wordlist=/usr/share/john/password.lst hashfile1.txt  
@@ -322,7 +351,7 @@ user@a8d078387d02:~$ sudo john --show hashfile1.txt
 **Step 6: Use the following commands to specify the format option “crypt” and run john
 again:**  
 ~~~
-user@a8d078387d02:~$ sudo john --format=crypt hashfile1.txt  
+user@a8d078387d02:~$ john --format=crypt hashfile1.txt  
 ~~~
 {: .language-bash}
 
@@ -333,6 +362,16 @@ user@a8d078387d02:~$ sudo john --show hashfile1.txt
 {: .language-bash}
 
 What are the passwords cracked? Please take a screenshot of the result.  
+~~~
+emiller:iloveyou:15652:0:99999:7:::  
+tanderson:password:15652:0:99999:7:::  
+awilliams:qwerty:15652:0:99999:7:::  
+mdavis:blink182:156 52:0:99999:7:::  
+djameson:whatever:15652:0:99999:7:::  
+  
+5 password hashes cracked, 0 left  
+~~~
+{: .output}
 
 
 >## Post-Task Questions
