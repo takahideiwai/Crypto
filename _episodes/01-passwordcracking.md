@@ -325,7 +325,7 @@ warnings:**
 >Use the "--format=md5" option to force loading hashes of that type instead  >
 {: .callout}
 
-> ##Warning
+> ## Warning
 >only loading hashes of type "des", but also saw type "crypt"  
 >
 >Use the "--format=crypt" option to force loading hashes of that type instead   
