@@ -9,9 +9,9 @@ questions:
 objectives:
 - "Follow instructions to successfully demonstrate some Password Cacking activities"
 keypoints:
-- "Directions.pdf can be opened using safari."
-- "It is best to copy and past the hashed password in Task 2."
-- "hashfile1.txt is created for user's convenience."
+- "Directions.pdf can be opened using Firefox."
+- "It is best to copy and past the hashed passwords in Task 2."
+- "hashfile1.txt is created for user's convenience in the home directory."
 ---
 
 
@@ -53,16 +53,18 @@ Each entry is the password information for each user (or user account) of the sy
 |----------|----------|---------|----------|---------------|----------------|---------------|
 | Username | password | User ID | Group ID | User ID info  | Home Directory | Command/shell |  
 
-- **Username: it should be between 1 and 32 characters in length.**  
-- **Password**: an ‘x’ character indicates that encrypted password is stored in /etc/shadow file.  
-- **User ID (UID)**: Each user must be assigned a user ID (UID). UID 0 (zero) is reserved for root and UIDs
-1-99 are reserved for other predefined accounts. Further UID 100-999 are reserved by system for
-administrative and system accounts/groups.  
-- **Group ID (GID)**:The primary group ID (stored in /etc/group file)   
-- **User ID Info**: The comment field. It allows you to add extra information about the users such as user’s
-full name, phone number etc.  
-- **Home directory**: The absolute path to the directory the user will be in when they log in.  
-- **Command/shell**: The absolute path of a command or shell (/bin/bash).  
+> ## Checklist
+> - **Username: it should be between 1 and 32 characters in length.**  
+> - **Password**: an ‘x’ character indicates that encrypted password is stored in /etc/shadow file.  
+> - **User ID (UID)**: Each user must be assigned a user ID (UID). UID 0 (zero) is reserved for root and UIDs
+> 1-99 are reserved for other predefined accounts. Further UID 100-999 are reserved by system for
+> administrative and system accounts/groups.  
+> - **Group ID (GID)**:The primary group ID (stored in /etc/group file)   
+> - **User ID Info**: The comment field. It allows you to add extra information about the users such as user’s
+> full name, phone number etc.  
+> - **Home directory**: The absolute path to the directory the user will be in when they log in.  
+> - **Command/shell**: The absolute path of a command or shell (/bin/bash).  
+{: .checklist}
 
 ~~~
  user@7f13087a9a35:~$ cat /etc/passwd  
@@ -85,10 +87,10 @@ user@a8d078387d02:~$ ls -l /etc/passwd
 
 | -                                                                     | rw-                                                          | r--                                                                              | r--                                                 |
 |-----------------------------------------------------------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------------------------------------------|
-| ‘-’ indicates a file  'd’ indicates a directory  ‘l’ indicates a link | Read, write and execute permissions forthe owner of the file | Read, write and execute permissions for the members of the group owning the file | Read, write and execute permissions for other users |
+| ‘-’ indicates a file  'd’ indicates a directory  ‘l’ indicates a link | Read, write and execute permissions for the owner of the file | Read, write and execute permissions for the members of the group owning the file | Read, write and execute permissions for other users |
 
 ~~~
--rw-r--r-- 1 root root 1196 Jun 12 22:40 /etc/passwd
+-rw-r--r-- 1 root root 1196 Jun 9 22:40 /etc/passwd
 ~~~
 {: .output}
 
@@ -101,26 +103,27 @@ user@a8d078387d02:~$ sudo cat /etc/shadow
 
 Each entry is the hashed password for each user (or user account) of the system. As with the passwd
 file, each field in the shadow file is also separated with ":" colon characters, and are as follows:  
+~~~
+root:$6$OCtu.M/v$fpnhbjkpA4S29lKZ2TzRsl6ArWyvu9eIfWfC0H98t8OoLPokE8.d7q54cynb0BTtLgN.IlolE72npACz7Dr2p.:16983:0:99999:7:::
+~~~
+{: .output}
 
-**root:$6$OCtu.M/v$fpnhbjkpA4S29lKZ2TzRsl6ArWyvu9eIfWfC0H98t8OoLPokE8.d7q54
-cynb0BTtLgN.IlolE72npACz7Dr2p.:16983:0:99999:7:::**
-
-- **Username**: a direct match to the username in the /etc/passwd file.  
-- **Password**: encrypted password. A blank entry (eg. ::) indicates a password is not required to log in
-(usually a bad idea), and a ‘*’ entry (eg. :*:) indicates the account has been disabled. The “!” symbol
-(often called a bang) represents that fact the password has not been set. Usually password format is set to
-**$id$salt$hash**. The $id is the algorithm used On GNU/Linux as follows: **$1$** is MD5, **$2a$** is Blowfish,**$2y$** is Blowfish, **$5$** is SHA-256, **$6$** is SHA-512  
-- **Last change**: the number of days (since January 1, 1970) since the password was last changed.
-- **Min**: the minimum number of days required between password changes. 0 indicates it may be changed at
-any time.  
-- **Max**: the number of days after which password must be changed. 99999 indicates user can keep his or her
-password unchanged for many, many years.  
-- **Warn**: the number of days to warn user of an expiring password (7 for a full week)
-- **Inactive**: the number of days after password expires that account is disabled  
-- **Expire**: the number of days since January 1, 1970 that an account has been disabled  
-- **A reserved field for possible future use**   
-
-**Please take a scrrenshot of the result!**  
+> ## Checklist
+> - **Username**: a direct match to the username in the /etc/passwd file.  
+> - **Password**: encrypted password. A blank entry (eg. ::) indicates a password is not required to log in
+> (usually a bad idea), and a ‘*’ entry (eg. :*:) indicates the account has been disabled. The “!” symbol
+> (often called a bang) represents that fact the password has not been set. Usually password format is set to
+> **$id$salt$hash**. The $id is the algorithm used On GNU/Linux as follows: **$1$** is MD5, **$2a$** is Blowfish,**$2y$** is Blowfish, **$5$** is SHA-256, **$6$** is SHA-512  
+> - **Last change**: the number of days (since January 1, 1970) since the password was last changed.
+> - **Min**: the minimum number of days required between password changes. 0 indicates it may be changed at
+> any time.  
+> - **Max**: the number of days after which password must be changed. 99999 indicates user can keep his or her
+> password unchanged for many, many years.  
+> - **Warn**: the number of days to warn user of an expiring password (7 for a full week)
+> - **Inactive**: the number of days after password expires that account is disabled  
+> - **Expire**: the number of days since January 1, 1970 that an account has been disabled  
+> - **A reserved field for possible future use**   
+{: .checklist}
 ~~~
 root:*:17962:0:99999:7:::  
 daemon:*:17962:0:99999:7:::  
@@ -181,8 +184,7 @@ Retype new UNIX password:
 user@a8d078387d02:~$ sudo tail /etc/shadow
 ~~~
 {: .language-bash}
-
-**Please take a screenshot of the result.**   
+ 
 ~~~
 user:$6$0nkEXGhf$aXpApOjg0PrBxGjky/xqbDEOv7cxay9QPrZYWfKGGEpqQThQFxBQiK0ZIs4cPl4WC0IF4zKLXFbv2T5vk/th41:18060:0:99999:7:::  
 alice:$6$wnYYKvPY$nfUYRvPmYdTF74QY.1hx/wIXiVfphnr79RCM5X.MXlWzeRWkk8DeS/7oheWZr.pCxmxvNNCn7VfQsniFCN6ly.:18060:0:99999:7:::  
@@ -231,19 +233,15 @@ John the Ripper is one of the well-known fast password cracking tool that can cr
 through a dictionary attack or through the use of brute force. It can be downloaded free at
 www.openwall.com/john/.   
 
-**Step 1: Install John the Ripper using the following command:**  
-~~~
-user@a8d078387d02:~$ sudo apt-get install john  
-~~~
-{: .language-bash}
 
-**Step 2: Type the following command to attempt to crack the passwords with john:**   
+
+**Step 1: Type the following command to attempt to crack the passwords with john:**   
 ~~~
 user@a8d078387d02:~$ sudo john /etc/shadow  
 ~~~
 {: .language-bash}
 
-*Please take a screenshot of the results*  
+
 ~~~
 Created directory: /root/.john  
 Loaded 3 password hashes with 3 different salts (crypt, generic crypt(3) [?/64])  
@@ -255,7 +253,7 @@ Session aborted
 ~~~  
 {: .output}
 
-**Step 3: Can you crack the following passwords?**  
+**Step 2: Can you crack the following passwords?**  
 
 emiller:3e05v.ztZ8LNE:15652:0:99999:7:::  
 
@@ -277,7 +275,7 @@ user@a8d078387d02:~$ gedit
 
 **Paste the above information in the text editor and click the Save button in the menu to save it to Desktop as “hashfile1.txt”**  
 
-**Step 4: Open a terminal, go to the desktop directory, and use john to crack the passwords**  
+**Step 3: Open a terminal, go to the desktop directory, and use john to crack the passwords**  
 
 ~~~
 user@a8d078387d02:~$ john hashfile1.txt  
@@ -317,8 +315,7 @@ appears to be unsupported on this system; will not load such hashes.
 ~~~
 {: .output}  
 
-**Step 5: Are there any remaining password to be cracked? You may get the following
-warnings:**  
+**Step 4: Are there any remaining password to be cracked? You may get the following warnings:**  
 > ## Warning
 >
 >only loading hashes of type "des", but also saw type "md5"  
@@ -334,33 +331,17 @@ warnings:**
 {: .callout}
 
 ~~~
-user@a8d078387d02:~$ sudo john --format=md5 --wordlist=/usr/share/john/password.lst hashfile1.txt  
+user@a8d078387d02:~$ john --format=crypt hashfile1.txt   
 ~~~
 {: .language-bash}
-
-**(if the password.lst can not be found, you can use the command locate password.lst to get
-the correct directory)**  
 
 **You can use the command to check the cracked passwords at this moment:**  
 ~~~
-user@a8d078387d02:~$ sudo john --show hashfile1.txt
+user@a8d078387d02:~$ john --show hashfile1.txt
 ~~~
 {: .language-bash}
 
-**Step 6: Use the following commands to specify the format option “crypt” and run john
-again:**  
-~~~
-user@a8d078387d02:~$ john --format=crypt hashfile1.txt  
-~~~
-{: .language-bash}
-
-**You can use the command to check the cracked passwords again:**  
-~~~
-user@a8d078387d02:~$ sudo john --show hashfile1.txt  
-~~~
-{: .language-bash}
-
-What are the passwords cracked? Please take a screenshot of the result.  
+What are the passwords cracked?   
 ~~~
 emiller:iloveyou:15652:0:99999:7:::  
 tanderson:password:15652:0:99999:7:::  
