@@ -10,7 +10,7 @@ objectives:
 - "Follow instructions to successfully demonstrate some Password Cacking activities"
 keypoints:
 - "Directions.pdf can be opened using Firefox."
-- "It is best to copy and past the hashed passwords in Task 2."
+- "It is best to copy and paste the hashed passwords in Task 2."
 - "hashfile1.txt is created for user's convenience in the home directory."
 ---
 
@@ -148,7 +148,6 @@ user@a8d078387d02:~$ cat /etc/passwd
 ~~~
 {: .language-bash}
 
-**Please take a scrrenshot of the result!**  
 ~~~
 user:x:1000:1000::/home/user:/bin/bash
 alice:x:1001:1001::/home/alice:/bin/sh
