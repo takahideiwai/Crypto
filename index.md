@@ -35,5 +35,3 @@ please see [the setup instructions]({{ page.root }}{% link setup.md %}).
 > 9.  File issues and template fixes in the [styles repository][styles],
 >     and enhancements to this documentation in this one.
 {: .checklist}
-
-{% include links.md %}
