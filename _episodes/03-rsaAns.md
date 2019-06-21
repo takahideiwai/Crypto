@@ -11,10 +11,14 @@ objectives:
 - "Follow instructions to successfully encrypt and decrypt some messages, sign and verify signatures."
 keypoints:
 - "It is best to copy and paste the private keys, public keys, messages and so on"
-- "Code can be written using vim which is vailable within the container"
+- "Code can be written using vim which is available within the container"
 - "Answers can be found within the answers directory. The users will be able to compile to program but will not be able to edit/modify the answers"
 ---
-## RSA Public-Key Encryption and Signature Lab
+## RSA Public-Key Encryption and Signature Lab  
+### Acknowledgement  
+This lab was developed with the help of Shatadiya Saha, a graduate student in the Department of Electrical Engineering and Computer Science at Syracuse University.  
+This lab was originally designed by [SEEDLabs](http://www.cis.syr.edu/~wedu/seed/Labs_16.04/Crypto/Crypto_RSA/) and Dr. Wenliang Du. 
+
 ### Introduction  
 
 RSA (RivestShamirAdleman) is one of the first public-key cryptosystems and is widely used for secure communication. The RSA algorithm first generates two large random prime numbers, and then use them to generate public and private key pairs, which can be used to do encryption, decryption, digital signature generation, and digital signature verification. The RSA algorithm is built upon number theories, and it can be quite easily implemented with the support of libraries.
@@ -154,14 +158,86 @@ e = 0D88C3
 ~~~
 {: .source}  
 
- ![img1](http://www.sciweavers.org/tex2img.php?eq=n%3Dp%20%5Ctimes%20q&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)  
- 
- ![img2](http://www.sciweavers.org/tex2img.php?eq=%20%5Cphi%20%28n%29%3D%28p-1%29%28q-1%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
- 
- 
- ![img3](http://www.sciweavers.org/tex2img.php?eq=d%3D%20e%5E%7B-1%7Dmod%20%5Cphi%20%28n%29%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)  
+The equations to calculate the private key *d* are listed below.  
+![equation]({{ page.root }}/fig/rsa/n.png)
+![equationtwo]({{ page.root }}/fig/rsa/phi.png)
+![equationthree]({{ page.root }}/fig/rsa/d.png)  
+
+The following are the example code for Task1.  
+```c
+/* bn_sample.c */
+#include <stdio.h>
+#include <openssl/bn.h>
+#define NBITS 256
+void printBN(char *msg, BIGNUM *a)
+{
+/*
+Use BN_bn2hex(a) for hex string*
+Use BN_bn2dec(a) for decimal string
+*/
+char *number_str = BN_bn2hex(a);
+printf("%s %s\n", msg, number_str);
+OPENSSL_free(number_str);
+}
 
 
+
+int main ()
+{
+//declare necessary variables
+BN_CTX *ctx = BN_CTX_new();
+BIGNUM *p = BN_new();
+BIGNUM *p_1 = BN_new();
+BIGNUM *q = BN_new();
+BIGNUM *q_1 = BN_new();
+BIGNUM *e = BN_new();
+BIGNUM *d = BN_new();
+BIGNUM *n = BN_new();
+BIGNUM *n_1 = BN_new();
+BIGNUM *one = BN_new();
+
+//Initialize p,q,e,one
+BN_hex2bn(&p, "F7E75FDC469067FFDC4E847C51F452DF");
+BN_hex2bn(&q, "E85CED54AF57E53E092113E62F436F4F");
+BN_hex2bn(&e, "0D88C3");
+BN_dec2bn(&one,"1");
+
+// P_1=p-1
+BN_sub(p_1,p,one);
+
+//q_1=q-1
+BN_sub(q_1,q,one);
+
+//n_1=(p-1)(q-1)
+BN_mul(n_1,p_1,q_1,ctx);
+
+//d=e^-1 mod (n-1)
+BN_mod_inverse(d,e,n_1,ctx);
+
+//printing out the value of d
+printBN("d is ",d);
+
+return 0;
+}
+```
+
+Type in the following command to compile the program named task1.c.  
+~~~
+gcc task1.c -lcrypto
+~~~
+{: .language-bash}
+
+Type in the following command to execute the program.  
+~~~
+./a.out
+~~~
+{: .language-bash}
+
+You should get the following output.  
+~~~
+d is  3587A24598E5F2A21DB007D89D18CC50ABA5075BA19A33890FE7C28A9B496AEB
+~~~
+{: .output}
 
 ### Task 2: Encrypting a Message
 Let *(e, n)* be the public key. Please encrypt the message "A top secret!" (the quotations are not included). We need to convert this ASCII string to a hex string, and then convert the hex string to a *BIGNUM* using the hex-to-bn API *BN_hex2bn()*. The following *python* command can be used to convert a plain ASCII string to a hex string.
@@ -181,6 +257,86 @@ d = 74D806F9F3A62BAE331FFE3F0A68AFE35B3D2E4794148AACBC26AA381CD7D30D
 ~~~
 {: .source}  
 
+The equation to encrypt a message is
+![enc]({{ page.root}}/fig/rsa/c.png)  
+The equation to decrypt a message is  
+![enc]({{ page.root}}/fig/rsa/m.png)  
+
+The following is the example code for Task 2  and Task 3.  
+```c
+/* bn_sample.c */
+#include <stdio.h>
+#include <openssl/bn.h>
+#define NBITS 256
+void printBN(char *msg, BIGNUM *a)
+{
+/*
+Use BN_bn2hex(a) for hex string*
+Use BN_bn2dec(a) for decimal string
+*/
+char *number_str = BN_bn2hex(a);
+printf("%s %s\n", msg, number_str);
+OPENSSL_free(number_str);
+}
+
+
+
+int main ()
+{
+//declaring variables
+BN_CTX *ctx = BN_CTX_new();
+BIGNUM *crypt = BN_new();
+BIGNUM *m = BN_new();
+BIGNUM *n = BN_new();
+BIGNUM *e = BN_new();
+BIGNUM *d = BN_new();
+BIGNUM *decrypt =BN_new();
+
+//initializing variables 
+BN_hex2bn(&n, "DCBFFE3E51F62E09CE7032E2677A78946A849DC4CDDE3A4D0CB81629242FB1A5");
+BN_hex2bn(&d, "74D806F9F3A62BAE331FFE3F0A68AFE35B3D2E4794148AACBC26AA381CD7D30D");
+BN_hex2bn(&e, "010001");
+BN_hex2bn(&m, "4120746f702073656372657421");
+
+//calculating c=m^e mod n
+BN_mod_exp(crypt,m,e,n,ctx);
+
+//calculating the encrypted message
+printBN("The encrypted message is ", crypt);
+
+//calculating m=c^d mod n
+BN_mod_exp(decrypt,crypt,d,n,ctx);
+
+//printing out the decrypted message 
+printBN("The decrypted message is ", decrypt);
+return 0;
+}
+```
+
+Type in the following command to compile the program named task2.c.  
+~~~
+gcc task2.c -lcrypto
+~~~
+{: .language-bash}
+
+Type in the following command to execute the program.  
+~~~
+./a.out
+~~~
+{: .language-bash}
+~~~
+The encrypted message is  6FB078DA550B2650832661E14F4F8D2CFAEF475A0DF3A75CACDC5DE5CFC5FADC
+The decrypted message is  4120746F702073656372657421
+~~~
+{: .output}  
+
+> ## Callout
+>As you can see from the result above, the decrypted message '4120746F702073656372657421' is equivalent to the   
+>ASCII string 'A top secret!'
+{: .callout}
+
+
+
 
 ### Task 3: Decrypting a Message
 The public/private keys used in this task are the same as the ones used in Task 2. Please decrypt the following ciphertext C, and convert it back to a plain ASCII string.
@@ -199,6 +355,36 @@ A top secret!
 ~~~
 {: .language-bash}  
 
+The eqution and the example code to decrypt a message is given in task 2. You will need to slightly modify the code.   
+
+Type in the following command to compile the program named task3.c.  
+~~~
+gcc task3.c -lcrypto
+~~~
+{: .language-bash}
+
+Type in the following command to execute the program.  
+~~~
+./a.out
+~~~
+{: .language-bash}
+
+~~~
+The decrypted message is  50617373776F72642069732064656573
+~~~
+{: .output}
+
+Type in the following command to convert the hexadecimal string to an ASCII string. 
+~~~
+python2.7 -c 'print("50617373776F72642069732064656573".decode("hex"))'
+~~~
+{: .language-bash}
+
+You will get the following output.  
+~~~
+Password is dees
+~~~
+{: .output}
 
 ### Task 4: Signing a Message 
 The public/private keys used in this task are the same as the ones used in Task 2. Please generate a signature for the following message (please directly sign this message, instead of signing its hash value):
@@ -207,7 +393,94 @@ The public/private keys used in this task are the same as the ones used in Task 
 ~~~
 {: .source}  
 
-Please make a slight change to the message M, such as changing $2000 to $3000, and sign the modified message. Compare both signatures and describe what you observe.  
+Please make a slight change to the message M, such as changing $2000 to $3000, and sign the modified message.   
+Compare both signatures and describe what you observe.  
+The equation to sign the message is   
+![enc]({{ page.root}}/fig/rsa/sig.png) 
+The example code is the following.  
+
+```c
+/* bn_sample.c */
+#include <stdio.h>
+#include <openssl/bn.h>
+#define NBITS 256
+void printBN(char *msg, BIGNUM *a)
+{
+/*
+Use BN_bn2hex(a) for hex string*
+Use BN_bn2dec(a) for decimal string
+*/
+char *number_str = BN_bn2hex(a);
+printf("%s %s\n", msg, number_str);
+OPENSSL_free(number_str);
+}
+
+int main ()
+{
+//declaring variables
+BN_CTX *ctx = BN_CTX_new();
+BIGNUM *m = BN_new();
+BIGNUM *n = BN_new();
+BIGNUM *e = BN_new();
+BIGNUM *d = BN_new();
+BIGNUM *ver =BN_new();
+BIGNUM *sig =BN_new();
+
+//initializing the variables
+BN_hex2bn(&n, "DCBFFE3E51F62E09CE7032E2677A78946A849DC4CDDE3A4D0CB81629242FB1A5");
+BN_hex2bn(&d, "74D806F9F3A62BAE331FFE3F0A68AFE35B3D2E4794148AACBC26AA381CD7D30D");
+BN_hex2bn(&e, "010001");
+BN_hex2bn(&m, "49206f776520796f752024333030302e");
+
+// Signing the message by calculating sig=m^d mod n
+BN_mod_exp(sig,m,d,n,ctx);
+//Printing out the signed message
+printBN("The signed certificate is ", sig);
+
+// Verifying the message by calculating ver=m^d mod n
+BN_mod_exp(ver,sig,e,n,ctx);
+
+//Printing out the verified message
+printBN("The verified certificate is ", ver);
+return 0;
+}
+```   
+
+Type in the following command to convert the ASCII string to a hexadecimal string.  
+~~~
+python2.7 -c 'print("I owe you $3000.".encode("hex"))'
+~~~
+{: .language-bash}
+
+You will get the following output.  
+~~~
+49206f776520796f752024323030302e
+~~~
+{: .output}
+Type in the following command to compile the program named task4.c.  
+~~~
+gcc task4.c -lcrypto
+~~~
+{: .language-bash}
+
+Type in the following command to execute the program.  
+~~~
+./a.out
+~~~
+{: .language-bash}
+
+You will get the following out put. 
+~~~
+The signed certificate is  BCC20FB7568E5D48E434C387C06A6025E90D29D848AF9C3EBAC0135D99305822
+The verified certificate is  49206F776520796F752024333030302E. 
+~~~
+{: .output} 
+
+> ## Callout
+>The verified certificate '49206F776520796F752024333030302E' is equivalent to the ASCII string 'I owe you $3000.'
+{: .callout}
+
+
 
 ### Task 5: Verifying a Signature  
 Bob receives a message M = "Launch a missile." from Alice, with her signature S. We know that Alice’s public key is (e, n). Please verify whether the signature is indeed Alice’s or not. The public key and signature (hexadecimal) are listed in the following: 
@@ -220,7 +493,51 @@ n = AE1CD4DC432798D933779FBD46C6E1247F0CF1233595113AA51B450F18116115
 ~~~
 {: .source}  
 
+The equation to verify the signed message is  
+![ver]({{ page.root}}/fig/rsa/ver.png)
+
 Suppose that the signature in is corrupted, such that the last byte of the signature changes from *2F* to *3F*, i.e, there is only one bit of change. Please repeat this task, and describe what will happen to the verification process.
+
+Type in the following command to compile the program named task5.c.  
+~~~
+gcc task5.c -lcrypto
+~~~
+{: .language-bash}
+
+Type in the following command to execute the program.  
+~~~
+./a.out
+~~~
+{: .language-bash}
+
+You will get the following out put. 
+~~~
+The verified certificate is  4C61756E63682061206D697373696C652E
+~~~
+{: .output}
+
+Type in the following command to convert the hexadecimal string to a ASCII string  
+~~~
+ $ python2.7  -c ’print("4C61756E63682061206D697373696C652E".encode("hex"))’
+~~~
+{: .language-bash}  
+You will get the following hexadecimal string.  
+~~~
+Launch a missle.
+~~~
+{: .output}
+Change the last two digit of the signature from 2F to 3F and repeat the steps.   
+You will get the following output.
+~~~
+The verified certificate is  91471927C80DF1E42C154FB4638CE8BC726D3D66C83A4EB6B7BE0203B41AC294
+~~~
+{: .output}  
+
+> ## Warning
+>The outcome should vary significantly just by slightly changing the original signed message.
+{: .callout}  
+
+
 
 ### Task 6: Manually Verifying an X.509 Certificate
 In this task, we will manually verify an X.509 certificate using our program. An X.509 contains data about a public key and an issuer’s signature on the data. We will download a real X.509 certificate from a web server, get its issuer’s public key, and then use this public key to verify the signature on the certificate.
@@ -268,6 +585,7 @@ $ openssl x509 -in c1.pem -text -noout
 ~~~
 {: .language-bash}  
 
+
 #### Step 3: Extract the signature from the server’s certificate.
 There is no specific openssl command to extract the signature field. However, we can print out all the fields and then copy and paste the signature block into a file (note: if the signature algorithm used in the certificate is not based on RSA, you can find another certificate).
 ~~~
@@ -300,10 +618,23 @@ $ cat signature | tr -d ’[:space:]:’
 A Certificate Authority (CA) generates the signature for a server certificate by first computing the hash of the certificate, and then sign the hash. To verify the signature, we also need to generate the hash from a certificate. Since the hash is generated before the signature is computed, we need to exclude the signature block of a certificate when computing the hash. Finding out what part of the certificate is used to generate the hash is quite challenging without a good understanding of the format of the certificate.
 X.509 certificates are encoded using the ASN.1 (Abstract Syntax Notation.One) standard, so if we can parse the ASN.1 structure, we can easily extract any field from a certificate. Openssl has a command called asn1parse, which can be used to parse a X.509 certificate.  
 
-```source
-add a source later
-```
-The field starting from **1** is the body of the certificate that is used to generate the hash; the field starting from **2** is the signature block. Their offsets are the numbers at the beginning of the lines. In our case, the certificate body is from offset 4 to 1249, while the signature block is from 1250 to the end of the file. For X.509 certificates, the starting offset is always the same (i.e., 4), but the end depends on the content length of a certificate. We can use the -strparse option to get the field from the offset 4, which will give us the body of the certificate, excluding the signature block.
+~~~
+$ openssl asn1parse -i -in c0.pem
+    0:d=0  hl=4 l=1856 cons: SEQUENCE
+    4:d=1  hl=4 l=1576 cons:  SEQUENCE
+    8:d=2  hl=2 l=   3 cons:   cont [ 0 ]
+   10:d=3  hl=2 l=   1 prim:    INTEGER           :02
+   13:d=2  hl=2 l=  16 prim:   INTEGER           :0FD078DD48F1A2BD4D0F2BA96B6038FE
+
+.....
+ 1584:d=1  hl=2 l=  13 cons:  SEQUENCE
+ 1586:d=2  hl=2 l=   9 prim:   OBJECT            :sha256WithRSAEncryption
+ 1597:d=2  hl=2 l=   0 prim:   NULL
+ 1599:d=1  hl=4 l= 257 prim:  BIT STRING
+~~~
+{: .output}  
+
+The field starting from **4:** is the body of the certificate that is used to generate the hash; the field starting from **1586**: is the signature block. Their offsets are the numbers at the beginning of the lines. In our case, the certificate body is from offset 4 to 1585, while the signature block is from 1585 to the end of the file. For X.509 certificates, the starting offset is always the same (i.e., 4), but the end depends on the content length of a certificate. We can use the -strparse option to get the field from the offset 4, which will give us the body of the certificate, excluding the signature block.
 
 ~~~
 $ openssl asn1parse -i -in c0.pem -strparse 4 -out c0_body.bin -noout
@@ -316,11 +647,81 @@ Once we get the body of the certificate, we can calculate its hash using the fol
 $ sha256sum c0_body.bin
 ~~~
 {: .language-bash} 
+You will get the following output. 
+~~~
+2c2a46bf245dab54ddb47298621e9629309f0e2c90c4d80d535c7d4e8ab07d29  c0_body.bin
+~~~
+{: .output}
 
 #### Step 5: Verify the signature. 
-Now we have all the information, including the CA’s public key, the CA’s signature, and the body of the server’s certificate. We can run our own program to verify whether the signature is valid or not. Openssl does provide a command to verify the certificate for us, but students are required to use their own programs to do so, otherwise, they get zero credit for this task.
+Now we have all the information, including the CA’s public key, the CA’s signature, and the body of the server’s certificate. We can run our own program to verify whether the signature is valid or not. 
+All of the necessary information have been given throughout the lab inorder for the user to successfully complete task 5.  
+The following code is only an example.  
+```c
+/* bn_sample.c */
+#include <stdio.h>
+#include <openssl/bn.h>
+#define NBITS 256
+void printBN(char *msg, BIGNUM *a)
+{
+/*
+Use BN_bn2hex(a) for hex string*
+Use BN_bn2dec(a) for decimal string
+*/
+char *number_str = BN_bn2hex(a);
+printf("%s %s\n", msg, number_str);
+OPENSSL_free(number_str);
+}
 
 
+
+int main ()
+{
+//declaring the variables
+BN_CTX *ctx = BN_CTX_new();
+BIGNUM *m = BN_new();
+BIGNUM *n = BN_new();
+BIGNUM *e = BN_new();
+BIGNUM *ver =BN_new();
+BIGNUM *sig =BN_new();
+
+//initializing the variables
+BN_hex2bn(&n, "DCAE58904DC1C4301590355B6E3C8215F52C5CBDE3DBFF7143FA64258
+0D4EE18A24DF066D00A736E1198361764AF379DFDFA4184AFC7AF8CFE1A734DCF33979
+0A2968753832BB9A675482D1D56377BDA31321AD7ACAB06F4AA5D4BB74746DD2A93C3
+902E798080EF13046A143BB59B92BEC207654EFCDAFCFF7AAEDC5C7E55310CE83907A4
+D7BE2FD30B6AD2B1DF5FFE5774533B3580DDAE8E4498B39F0ED3DAE0D7F46B29AB44A
+74B58846D924B81C3DA738B129748900445751ADD37319792E8CD540D3BE4C13F395E2E
+B8F35C7E108E8641008D456647B0A165CEA0AA29094EF397EBE82EAB0F72A7300EFAC7
+F4FD1477C3A45B2857C2B3F982FDB745589B");
+
+BN_hex2bn(&e, "10001");
+
+BN_hex2bn(&sig, "737085ef4041a76a43d5789c7b5548e6bc6b9986bafb0d038b78fe11f029a00ccd69140bc60
+478b2cef087d5019dc4597a71fef06e9ec1a0b0912d1fea3d55c533050ccdc13518b06a68664cbf5621da5bd948b9
+8c3521915ddc75d77a462c2227a66fd33a17ebbebd13c5122673c05da335896afb27d4ddaa74742e37e5013ba6d03
+0b083d0a1c4752185b2e5fa670030a2bc53834dbfd6a883bbbcd6ed1cb31ef1580382008e9cef90f21a5fa2a306d
+a5dbe9fda5da6e62fde588018d3f1627ba6a39faea86972638165ae8283a3b5978a9b2051ff1a3f61401e48d06b38f
+9e1fa17d8774a88e63d36244fef0ab99f70f38327f8cf2a057510a18a0a8088cd");
+
+//calculating ver=sig^e mod n to verify the certificate
+BN_mod_exp(ver,sig,e,n,ctx);
+
+//printing out the verified certificate
+printBN("The verified certificate is ", ver);
+return 0;
+} 
+```  
+You will get the following output.  
+~~~
+The verified certificate is  01FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF003031300D0609608648016503040201050004202C2A46BF245DAB54DDB47298621E9629309F0E2C90C4D80D535C7D4E8AB07D29 
+~~~
+{: .output}
+
+> ## Callout
+> The hashed certificate ' 2c2a46bf245dab54ddb47298621e9629309f0e2c90c4d80d535c7d4e8ab07d29' can be found in the verified certificate.
+> Which means that the certificate is valid. 
+{: .callout}
 
 
 
