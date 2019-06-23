@@ -326,7 +326,11 @@ appears to be unsupported on this system; will not load such hashes.
 ~~~
 user@a8d078387d02:~$ john --format=crypt hashfile1.txt   
 ~~~
-{: .language-bash}
+{: .language-bash}  
+
+>## Warning
+>Since John the Ripper will brute force the passwords, it might take a few minutes until the passwords are being cracked. 
+{: .callout}
 
 **You can use the command to check the cracked passwords at this moment:**  
 ~~~
