@@ -14,7 +14,10 @@ keypoints:
 - "Code can be written using vim which is vailable within the container"
 - "Answers can be found within the answers directory. The users will be able to compile to program but will not be able to edit/modify the answers"
 ---
-## RSA Public-Key Encryption and Signature Lab
+## RSA Public-Key Encryption and Signature Lab 
+### Acknowledgement  
+This lab was developed with the help of Shatadiya Saha, a graduate student in the Department of Electrical Engineering and Computer Science at Syracuse University.  
+This lab was originally designed by [SEEDLabs](http://www.cis.syr.edu/~wedu/seed/Labs_16.04/Crypto/Crypto_RSA/) and Dr. Wenliang Du. 
 ### Introduction  
 
 RSA (RivestShamirAdleman) is one of the first public-key cryptosystems and is widely used for secure communication. The RSA algorithm first generates two large random prime numbers, and then use them to generate public and private key pairs, which can be used to do encryption, decryption, digital signature generation, and digital signature verification. The RSA algorithm is built upon number theories, and it can be quite easily implemented with the support of libraries.
