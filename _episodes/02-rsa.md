@@ -12,7 +12,7 @@ objectives:
 keypoints:
 - "It is best to copy and paste the private keys, public keys, messages and so on"
 - "Code can be written using vim which is vailable within the container"
-- "Answers can be found within the answers directory. The users will be able to compile to program but will not be able to edit/modify the answers"
+- "Answers can be found within the answers directory."
 ---
 ## RSA Public-Key Encryption and Signature Lab 
 ### Acknowledgement  
@@ -293,10 +293,24 @@ $ cat signature | tr -d ’[:space:]:’
 #### Step 4: Extract the body of the server’s certificate.
 A Certificate Authority (CA) generates the signature for a server certificate by first computing the hash of the certificate, and then sign the hash. To verify the signature, we also need to generate the hash from a certificate. Since the hash is generated before the signature is computed, we need to exclude the signature block of a certificate when computing the hash. Finding out what part of the certificate is used to generate the hash is quite challenging without a good understanding of the format of the certificate.
 X.509 certificates are encoded using the ASN.1 (Abstract Syntax Notation.One) standard, so if we can parse the ASN.1 structure, we can easily extract any field from a certificate. Openssl has a command called asn1parse, which can be used to parse a X.509 certificate.
-```source
-add a source later
-```
-The field starting from **1** is the body of the certificate that is used to generate the hash; the field starting from **2** is the signature block. Their offsets are the numbers at the beginning of the lines. In our case, the certificate body is from offset 4 to 1249, while the signature block is from 1250 to the end of the file. For X.509 certificates, the starting offset is always the same (i.e., 4), but the end depends on the content length of a certificate. We can use the -strparse option to get the field from the offset 4, which will give us the body of the certificate, excluding the signature block.
+
+~~~
+$ openssl asn1parse -i -in c0.pem
+    0:d=0  hl=4 l=1856 cons: SEQUENCE
+    4:d=1  hl=4 l=1576 cons:  SEQUENCE
+    8:d=2  hl=2 l=   3 cons:   cont [ 0 ]
+   10:d=3  hl=2 l=   1 prim:    INTEGER           :02
+   13:d=2  hl=2 l=  16 prim:   INTEGER           :0FD078DD48F1A2BD4D0F2BA96B6038FE
+
+.....
+ 1584:d=1  hl=2 l=  13 cons:  SEQUENCE
+ 1586:d=2  hl=2 l=   9 prim:   OBJECT            :sha256WithRSAEncryption
+ 1597:d=2  hl=2 l=   0 prim:   NULL
+ 1599:d=1  hl=4 l= 257 prim:  BIT STRING
+~~~
+{: .output}  
+
+The field starting from **4:** is the body of the certificate that is used to generate the hash; the field starting from **1586**: is the signature block. Their offsets are the numbers at the beginning of the lines. In our case, the certificate body is from offset 4 to 1585, while the signature block is from 1585 to the end of the file. For X.509 certificates, the starting offset is always the same (i.e., 4), but the end depends on the content length of a certificate. We can use the -strparse option to get the field from the offset 4, which will give us the body of the certificate, excluding the signature block.
 
 ~~~
 $ openssl asn1parse -i -in c0.pem -strparse 4 -out c0_body.bin -noout
