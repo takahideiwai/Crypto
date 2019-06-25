@@ -11,8 +11,8 @@ objectives:
 - "Follow instructions to successfully encrypt and decrypt some messages, sign and verify signatures."
 keypoints:
 - "It is best to copy and paste the private keys, public keys, messages and so on"
-- "Code can be written using vim which is available within the container"
-- "An example codes can be found in the answers directory."
+- "C Code can be written using vim which is available within the container"
+- "Some example codes can be found in the answers directory."
 ---
 ## RSA Public-Key Encryption and Signature Lab  
 ### Acknowledgement  
@@ -20,7 +20,7 @@ This lab was developed with the help of Shatadiya Saha, a graduate student in th
 This lab was originally designed by [SEEDLabs](http://www.cis.syr.edu/~wedu/seed/Labs_16.04/Crypto/Crypto_RSA/) and Dr. Wenliang Du. 
 
 > ## Warning
-> Example codes are given in this instruction guide however, students are encouraged to create their own code to get the most out of this lab!!
+> Example codes are given in this instruction guide however, it is recommended that students create their own codes to get the most out of this lab!!
 {: .callout}
 
 ### Introduction  
