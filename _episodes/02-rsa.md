@@ -11,7 +11,7 @@ objectives:
 - "Follow instructions to successfully encrypt and decrypt some messages, sign and verify signatures."
 keypoints:
 - "It is best to copy and paste the private keys, public keys, messages and so on"
-- "Code can be written using vim which is vailable within the container"
+- "Code can be written using edit which is available within the container"
 - "Answers can be found within the answers directory."
 ---
 ## RSA Public-Key Encryption and Signature Lab 
@@ -21,7 +21,7 @@ This lab was originally designed by [SEEDLabs](http://www.cis.syr.edu/~wedu/seed
 ### Introduction  
 
 RSA (RivestShamirAdleman) is one of the first public-key cryptosystems and is widely used for secure communication. The RSA algorithm first generates two large random prime numbers, and then use them to generate public and private key pairs, which can be used to do encryption, decryption, digital signature generation, and digital signature verification. The RSA algorithm is built upon number theories, and it can be quite easily implemented with the support of libraries.
-The learning objective of this lab is for students to gain hands-on experiences on the RSA algorithm. From lectures, students should have learned the theoretic part of the RSA algorithm, so they know math- ematically how to generate public/private keys and how to perform encryption/decryption and signature generation/verification. This lab enhances student’s understanding of RSA by requiring them to go through every essential step of the RSA algorithm on actual numbers, so they can apply the theories learned from the class. Essentially, students will be implementing the RSA algorithm using the C program language. The lab covers the following security-related topics:
+The learning objective of this lab is for students to gain hands-on experiences on the RSA algorithm. From lectures, students should have learned the theoretic part of the RSA algorithm, so they know mathematically how to generate public/private keys and how to perform encryption/decryption and signature generation/verification. This lab enhances student’s understanding of RSA by requiring them to go through every essential step of the RSA algorithm on actual numbers, so they can apply the theories learned from the class. Essentially, students will be implementing the RSA algorithm using the C program language. The lab covers the following security-related topics:
 - Public-key cryptography
 - The RSA algorithm and key generation
 - Big number calculation
