@@ -10,9 +10,9 @@ questions:
 objectives:
 - "Follow instructions to successfully encrypt and decrypt some messages, sign and verify signatures."
 keypoints:
-- "It is best to copy and paste the private keys, public keys, messages and so on"
-- "Code can be written using edit which is available within the container"
-- "Answers can be found within the answers directory."
+- "It is best to copy and paste the private keys, public keys, messages and so on from this instruction."
+- "Code can be written using gedit and compiled using gcc which is available within the container."
+- "instructions.txt, which is located on the Desktop contains the URL to the instructions."
 ---
 ## RSA Public-Key Encryption and Signature Lab 
 ### Acknowledgement  
@@ -21,7 +21,7 @@ This lab was originally designed by [SEEDLabs](http://www.cis.syr.edu/~wedu/seed
 ### Introduction  
 
 RSA (RivestShamirAdleman) is one of the first public-key cryptosystems and is widely used for secure communication. The RSA algorithm first generates two large random prime numbers, and then use them to generate public and private key pairs, which can be used to do encryption, decryption, digital signature generation, and digital signature verification. The RSA algorithm is built upon number theories, and it can be quite easily implemented with the support of libraries.
-The learning objective of this lab is for students to gain hands-on experiences on the RSA algorithm. From lectures, students should have learned the theoretic part of the RSA algorithm, so they know mathematically how to generate public/private keys and how to perform encryption/decryption and signature generation/verification. This lab enhances student’s understanding of RSA by requiring them to go through every essential step of the RSA algorithm on actual numbers, so they can apply the theories learned from the class. Essentially, students will be implementing the RSA algorithm using the C program language. The lab covers the following security-related topics:
+The learning objective of this lab is for students to gain hands on experiences on the RSA algorithm. From lectures, students should have learned the theoretic part of the RSA algorithm, so they know mathematically how to generate public/private keys and how to perform encryption/decryption and signature generation/verification. This lab enhances student’s understanding of RSA by requiring them to go through every essential step of the RSA algorithm on actual numbers, so they can apply the theories learned from the class. Essentially, students will be implementing the RSA algorithm using the C program language. The lab covers the following security-related topics:
 - Public-key cryptography
 - The RSA algorithm and key generation
 - Big number calculation
@@ -31,13 +31,14 @@ The learning objective of this lab is for students to gain hands-on experiences 
 
 ### Background  
 
-The RSA algorithm involves computations on large numbers. These computations cannot be directly con- ducted using simple arithmetic operators in programs, because those operators can only operate on primitive data types, such as 32-bit integer and 64-bit long integer types. The numbers involved in the RSA algorithms are typically more than 512 bits long. For example, to multiple two 32-bit integer numbers a and b, we just need to use a*b in our program. However, if they are big numbers, we cannot do that any more; instead, we need to use an algorithm (i.e., a function) to compute their products.
+The RSA algorithm involves computations on large numbers. These computations cannot be directly conducted using simple arithmetic operators in programs, because those operators can only operate on primitive data types, such as 32-bit integer and 64-bit long integer types. The numbers involved in the RSA algorithms are typically more than 512 bits long. For example, to multiple two 32-bit integer numbers a and b, we just need to use 'a∗b' in our program. However, if they are big numbers, we cannot do that any more; instead, we need to use an algorithm (i.e., a function) to compute their products.
 There are several libraries that can perform arithmetic operations on integers of arbitrary size. In this lab, we will use the Big Number library provided by *openssl*. To use this library, we will define each big number as a *BIGNUM* type, and then use the APIs provided by the library for various operations, such as addition, multiplication, exponentiation, modular operations, etc.
+
 ### BIGNUM APIs  
 
 All the big number APIs can be found from https://linux.die.net/man/3/bn. In the following, we describe some of the APIs that are needed for this lab.  
 
-- Some of the library functions requires temporary variables. Since dynamic memory allocation to cre- ate BIGNUMs is quite expensive when used in conjunction with repeated subroutine calls, a BN CTX structure is created to holds BIGNUM temporary variables used by library functions. We need to create such a structure, and pass it to the functions that requires it.  
+- Some of the library functions requires temporary variables. Since dynamic memory allocation to create BIGNUMs is quite expensive when used in conjunction with repeated subroutine calls, a BN_CTX structure is created to hold BIGNUM temporary variables used by library functions. We need to create such a structure, and pass it to the functions that requires it.  
 
 ``` c
  BN_CTX *ctx = BN_CTX_new()
@@ -78,7 +79,7 @@ printf("%s %s\n", msg, number_str);
 BN_sub(res, a, b);
 BN_add(res, a, b);
 ```
-- Compute *res = a ∗ b*. It should be noted that a BN CTX structure is need in this API.  
+- Compute *res = a ∗ b*. It should be noted that a BN_CTX structure is need in this API.  
 
 ```c
 BN_mul(res, a, b, ctx)
@@ -137,7 +138,7 @@ int main ()
 ```
 
 #### compilation
-We can use the following command to compile bn sample.c (the character after - is the letter l, not the number 1; it tells the compiler to use the crypto library).  
+We can use the following command to compile bn_sample.c (the character after - is the letter l, not the number 1; it tells the compiler to use the crypto library).  
 
 ~~~
 $ gcc bn_sample.c -lcrypto
@@ -145,10 +146,10 @@ $ gcc bn_sample.c -lcrypto
 {: .language-bash}
 
 ### Lab Tasks
-To avoid mistakes, please avoid manually typing the numbers used the lab tasks. Instead, copy and paste the numbers from this PDF file.  
+To avoid mistakes, please avoid manually typing the numbers used in the lab tasks. Instead, copy and paste the numbers from this instruction.  
 
 ### Task 1: Deriving the Private Key
-Let *p*, *q*, and *e* be three prime numbers. Let *n = p∗q*. We will use *(e, n)* as the public key. Please calculate the private key d. The hexadecimal values of *p*, *q*, and *e* are listed in the following. It should be noted that although p and q used in this task are quite large numbers, they are not large enough to be secure. We intentionally make them small for the sake of simplicity. In practice, these numbers should be at least 512 bits long (the one used here are only 128 bits).  
+Let *p*, *q*, and *e* be three prime numbers. Let *n = p∗q*. We will use *(e, n)* as the public key. Please calculate the private key *d*. The hexadecimal values of *p*, *q*, and *e* are listed in the following. It should be noted that although p and q used in this task are quite large numbers, they are not large enough to be secure. We intentionally make them small for the sake of simplicity. In practice, these numbers should be at least 512 bits long (the one used here are only 128 bits).  
 
 ~~~
 p = F7E75FDC469067FFDC4E847C51F452DF
@@ -158,9 +159,9 @@ e = 0D88C3
 {: .source}  
 
 ### Task 2: Encrypting a Message
-Let *(e, n)* be the public key. Please encrypt the message "A top secret!" (the quotations are not included). We need to convert this ASCII string to a hex string, and then convert the hex string to a *BIGNUM* using the hex-to-bn API *BN_hex2bn()*. The following *python* command can be used to convert a plain ASCII string to a hex string.
+Let *(e, n)* be the public key. Please encrypt the message "A top secret!" (the quotations are not included). We need to convert this ASCII string to a hex string, and then convert the hex string to a *BIGNUM* using the hex to bn API, *BN_hex2bn()*. The following python command can be used to convert a plain ASCII string to a hex string.
 ~~~
- $ python2.7  -c ’print("A top secret!".encode("hex"))’
+ $ python  -c ’print("A top secret!".encode("hex"))’
    4120746f702073656372657421
 ~~~
 {: .language-bash}
@@ -177,7 +178,7 @@ d = 74D806F9F3A62BAE331FFE3F0A68AFE35B3D2E4794148AACBC26AA381CD7D30D
 
 
 ### Task 3: Decrypting a Message
-The public/private keys used in this task are the same as the ones used in Task 2. Please decrypt the following ciphertext C, and convert it back to a plain ASCII string.
+The public/private keys used in this task are the same as the ones used in Task 2. Please decrypt the following cipher text *C*, and convert it back to a plain ASCII string.
 
 ~~~
 C = 8C0F971DF2F3672B28811407E2DABBE1DA0FEBBBDFC7DCB67396567EA1E2493F
@@ -185,10 +186,10 @@ C = 8C0F971DF2F3672B28811407E2DABBE1DA0FEBBBDFC7DCB67396567EA1E2493F
 {: .source}  
 
 
-You can use the following python command to convert a hex string back to to a plain ASCII string.  
+You can use the following python command to convert a hex string back to a plain ASCII string.  
 
 ~~~
-$ python2.7  -c ’print("4120746f702073656372657421".decode("hex"))’
+$ python  -c ’print("4120746f702073656372657421".decode("hex"))’
 A top secret!
 ~~~
 {: .language-bash}  
@@ -207,19 +208,19 @@ Please make a slight change to the message M, such as changing $2000 to $3000, a
 Bob receives a message M = "Launch a missile." from Alice, with her signature S. We know that Alice’s public key is (e, n). Please verify whether the signature is indeed Alice’s or not. The public key and signature (hexadecimal) are listed in the following: 
 
 ~~~
-M = Launch a missle.
+M = Launch a missile.
 S = 643D6F34902D9C7EC90CB0B2BCA36C47FA37165C0005CAB026C0542CBDB6802F
 e = 010001 (this hex value equals to decimal 65537)
 n = AE1CD4DC432798D933779FBD46C6E1247F0CF1233595113AA51B450F18116115
 ~~~
 {: .source}  
 
-Suppose that the signature in is corrupted, such that the last byte of the signature changes from *2F* to *3F*, i.e, there is only one bit of change. Please repeat this task, and describe what will happen to the verification process.
+Suppose that the signature is corrupted, such that the last byte of the signature changes from *2F* to *3F*, i.e, there is only one bit of change. Please repeat this task, and describe what will happen to the verification process.
 
 ### Task 6: Manually Verifying an X.509 Certificate
-In this task, we will manually verify an X.509 certificate using our program. An X.509 contains data about a public key and an issuer’s signature on the data. We will download a real X.509 certificate from a web server, get its issuer’s public key, and then use this public key to verify the signature on the certificate.
+In this task, we will manually verify an X.509 certificate using our program. An X.509 contains data about the public key and an issuer’s signature on the data. We will download a real X.509 certificate from a web server, get its issuer’s public key, and then use this public key to verify the signature on the certificate.
 #### Step 1: Download a certificate from a real web server.
-We use the www.example.org server in this document. Students should choose a different web server that has a different certificate than the one used in this document (it should be noted that www.example.com share the same certificate with www.example.org). We can download certificates using browsers or use the following command:  
+We used the www.example.org server in this document. Students should choose a different web server that has a different certificate than the one used in this document (it should be noted that www.example.com share the same certificate with www.example.org). We can download certificates using browsers or using the following command:  
 
 ~~~
 $ openssl s_client -connect www.example.org:443 -showcerts
@@ -249,7 +250,7 @@ cPUeybQ=
 
 The result of the command contains two certificates. The subject field (the entry starting with s:) of the certificate is www.example.org, i.e., this is www.example.org’s certificate. The issuer field (the entry starting with i:) provides the issuer’s information. The subject field of the second certificate is the same as the issuer field of the first certificate. Basically, the second certificate belongs to an intermediate CA. In this task, we will use CA’s certificate to verify a server certificate.
 If you only get one certificate back using the above command, that means the certificate you get is signed by a root CA. Search for the name of the issuer and download its certificate.
-Copy and paste each of the certificate (the text between the line containing "Begin CERTIFICATE" and the line containing "END CERTIFICATE",including these two lines) to a file.Let us call the first one **c0.pem** and the second one **c1.pem**.
+Copy and paste each of the certificate (the text between the line containing "Begin CERTIFICATE" and the line containing "END CERTIFICATE",including these two lines) to a file. Let us call the first one **c0.pem** and the second one **c1.pem**.
 
 #### Step 2: Extract the public key (e, n) from the issuer’s certificate. 
 openssl provides commands to extract certain attributes from the x509 certificates. We can extract the value of *n* using *-modulus*. There is no specific command to extract *e*, but we can print out all the fields and can easily find the value of *e*.
@@ -263,7 +264,8 @@ $ openssl x509 -in c1.pem -text -noout
 {: .language-bash}  
 
 #### Step 3: Extract the signature from the server’s certificate.
-There is no specific openssl command to extract the signature field. However, we can print out all the fields and then copy and paste the signature block into a file (note: if the signature algorithm used in the certificate is not based on RSA, you can find another certificate).
+There is no specific openssl command to extract the signature field. However, we can print out all the fields and then copy and paste the signature block into a file.  
+(**note: if the signature algorithm used in the certificate is not based on RSA, you can find another certificate**).
 ~~~
 $ openssl x509 -in c0.pem -text -noout
 ~~~
@@ -280,7 +282,7 @@ aa:6a:88:82
 ~~~
 {: .output}  
 
-We need to remove the spaces and colons from the data, so we can get a hex-string that we can feed into our program. The following command commands can achieve this goal. The tr command is a Linux utility tool for string operations. In this case, the -d option is used to delete ":" and "space" from the data.
+We need to remove the spaces and colons from the data, so we can get a hex-string that we can feed into our program. The following command can achieve this goal. The *tr* command is a Linux utility tool for string operations. In this case, the *-d* option is used to delete ":" and "space" from the data.
 ~~~
 $ cat signature | tr -d ’[:space:]:’
 84a89a11a7d8bd0b267e52247bb2559dea30895108876fa9ed10ea5b3e0bc7
@@ -291,8 +293,8 @@ $ cat signature | tr -d ’[:space:]:’
 
 
 #### Step 4: Extract the body of the server’s certificate.
-A Certificate Authority (CA) generates the signature for a server certificate by first computing the hash of the certificate, and then sign the hash. To verify the signature, we also need to generate the hash from a certificate. Since the hash is generated before the signature is computed, we need to exclude the signature block of a certificate when computing the hash. Finding out what part of the certificate is used to generate the hash is quite challenging without a good understanding of the format of the certificate.
-X.509 certificates are encoded using the ASN.1 (Abstract Syntax Notation.One) standard, so if we can parse the ASN.1 structure, we can easily extract any field from a certificate. Openssl has a command called asn1parse, which can be used to parse a X.509 certificate.
+A Certificate Authority (CA) generates the signature for the server certificate by first computing the hash of the certificate, and then sign the hash. To verify the signature, we also need to generate the hash from a certificate. Since the hash is generated before the signature is computed, we need to exclude the signature block of the certificate when computing the hash. Finding out the part of the certificate, which is used to generate the hash is quite challenging without a good understanding of the format of the certificate.
+X.509 certificates are encoded using the ASN.1 (Abstract Syntax Notation.One) standard, so if we can parse the ASN.1 structure, we can easily extract any field from a certificate. Openssl has a command called *asn1parse*, which can be used to parse a X.509 certificate.
 
 ~~~
 $ openssl asn1parse -i -in c0.pem
@@ -310,7 +312,7 @@ $ openssl asn1parse -i -in c0.pem
 ~~~
 {: .output}  
 
-The field starting from **4:** is the body of the certificate that is used to generate the hash; the field starting from **1586**: is the signature block. Their offsets are the numbers at the beginning of the lines. In our case, the certificate body is from offset 4 to 1585, while the signature block is from 1585 to the end of the file. For X.509 certificates, the starting offset is always the same (i.e., 4), but the end depends on the content length of a certificate. We can use the -strparse option to get the field from the offset 4, which will give us the body of the certificate, excluding the signature block.
+The field starting from **4:** is the body of the certificate that is used to generate the hash; the field starting from **1586**: is the signature block. Their offsets are the numbers at the beginning of each lines. In our case, the certificate body is from offset 4 to 1585, while the signature block is from 1586 to the end of the file. For X.509 certificates, the starting offset is always the same (i.e., 4), but the end depends on the content length of the certificate. We can use the *-strparse* option to get the field from offset 4, which will give us the body of the certificate, excluding the signature block.
 
 ~~~
 $ openssl asn1parse -i -in c0.pem -strparse 4 -out c0_body.bin -noout
@@ -325,7 +327,7 @@ $ sha256sum c0_body.bin
 {: .language-bash} 
 
 #### Step 5: Verify the signature. 
-Now we have all the information, including the CA’s public key, the CA’s signature, and the body of the server’s certificate. We can run our own program to verify whether the signature is valid or not. Openssl does provide a command to verify the certificate for us, but students are required to use their own programs to do so, otherwise, they get zero credit for this task.
+Now we have all the information, including the CA’s public key, the CA’s signature, and the body of the server’s certificate. We can run our own program to verify whether the signature is valid or not. Openssl does provide a command to verify the certificate for us, but students are required to use their own programs to do so.
 
 
 
