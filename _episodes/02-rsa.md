@@ -249,7 +249,7 @@ cPUeybQ=
 {: .output}  
 
 The result of the command contains two certificates. The subject field (the entry starting with s:) of the certificate is www.example.org, i.e., this is www.example.org’s certificate. The issuer field (the entry starting with i:) provides the issuer’s information. The subject field of the second certificate is the same as the issuer field of the first certificate. Basically, the second certificate belongs to an intermediate CA. In this task, we will use CA’s certificate to verify a server certificate.
-If you only get one certificate back using the above command, that means the certificate you get is signed by a root CA. Search for the name of the issuer and download its certificate.
+If you only get one certificate back using the above command, that means the certificate you get is signed by a root CA. Search for the name of the issuer and download its certificate. In the case where you get three certificates, just use the first two in this task.
 Copy and paste each of the certificate (the text between the line containing "Begin CERTIFICATE" and the line containing "END CERTIFICATE",including these two lines) to a file. Let us call the first one **c0.pem** and the second one **c1.pem**.
 
 #### Step 2: Extract the public key (e, n) from the issuer’s certificate. 
