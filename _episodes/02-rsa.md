@@ -293,7 +293,7 @@ $ cat signature | tr -d ’[:space:]:’
 
 
 #### Step 4: Extract the body of the server’s certificate.
-A Certificate Authority (CA) generates the signature for the server certificate by first computing the hash of the certificate, and then sign the hash. To verify the signature, we also need to generate the hash from a certificate. Since the hash is generated before the signature is computed, we need to exclude the signature block of the certificate when computing the hash. Finding out the part of the certificate, which is used to generate the hash is quite challenging without a good understanding of the format of the certificate.
+A Certificate Authority (CA) generates the signature for the server certificate by first computing the hash of the certificate, and then signing the hash. To verify the signature, we also need to generate the hash from a certificate. Since the hash is generated before the signature is computed, we need to exclude the signature block of the certificate when computing the hash. Finding out the part of the certificate, which is used to generate the hash is quite challenging without a good understanding of the format of the certificate.
 X.509 certificates are encoded using the ASN.1 (Abstract Syntax Notation.One) standard, so if we can parse the ASN.1 structure, we can easily extract any field from a certificate. Openssl has a command called *asn1parse*, which can be used to parse a X.509 certificate.
 
 ~~~
