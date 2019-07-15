@@ -12,7 +12,6 @@ objectives:
 keypoints:
 - "It is best to copy and paste the private keys, public keys, messages and so on from this instruction."
 - "Code can be written using gedit and compiled using gcc which is available within the container."
-- "instructions.txt, which is located on the Desktop contains the URL to the instructions."
 ---
 ## RSA Public-Key Encryption and Signature Lab 
 ### Acknowledgement  
